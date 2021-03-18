@@ -64,7 +64,7 @@ var htmlTpl = `
         <textarea name="logcatbox" class="logcatBox" rows="10" readonly></textarea>
     </div>
 
-    <script src="../dist/flv.js"></script>
+    <script src="./flv.js"></script>
     
     <script>
         var checkBoxFields = ['isLive', 'withCredentials', 'hasAudio', 'hasVideo'];

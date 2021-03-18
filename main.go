@@ -31,6 +31,7 @@ import (
 	// bolt "go.etcd.io/bbolt"
 	// import "github.com/didi/gendry/manager"
 	// import "database/sql"
+	"github.com/rs/cors"
 )
 
 var CLI struct {
@@ -57,17 +58,21 @@ func main() {
 }
 
 func serve(port string) {
-
 	fs := http.FileServer(http.Dir("."))
-	http.HandleFunc("/", handler)
-	http.Handle("/demo.css", fs)
-	http.Handle("/flv.js", fs)
-	log.Fatal(http.ListenAndServe(":"+port, nil))
+	mux := http.NewServeMux()
+
+	mux.HandleFunc("/", handler)
+	mux.Handle("/demo.css", fs)
+	mux.Handle("/flv.js", fs)
+
+	// handler := cors.Default().Handler(mux)
+
+	log.Fatal(http.ListenAndServe(":"+port, handler))
 	return
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-
+	// w.Header().Set("Access-Control-Allow-Origin", "*")
 	htmldata := renderHtml()
 	fmt.Fprintf(w, htmldata)
 }
